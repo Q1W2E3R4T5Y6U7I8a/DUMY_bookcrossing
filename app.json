@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "icon": "./assets/DUMY_icon_android.png",
+    "splash": {
+      "image": "./assets/splash_screen_android.png",
+      "resizeMode": "cover", 
+      "backgroundColor": "#000000"
+    },
+    "scheme": "acme",
+    "plugins": [
+      "expo-router"
+    ],
+    "name": "DUMY",
+    "slug": "DUMY_project",
+    "extra": {
+      "eas": {
+        "projectId": "73718dff-9d72-4cce-b93c-a31e1deb97cb"
+      }
+    },
+    "owner": "makarkarma",
+    "runtimeVersion": "1.0.3",
+    "updates": {
+      "url": "https://u.expo.dev/73718dff-9d72-4cce-b93c-a31e1deb97cb"
+    },
+    "android": {
+      "package": "dumy.ua.myapplication"
+    },
+    "ios": {}
+  }
+}
