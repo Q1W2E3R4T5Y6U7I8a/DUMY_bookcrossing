@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Modal, Text, StyleSheet, Image } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useSegments } from 'expo-router';
 import React, { useState, useContext } from 'react';
 import { LanguageContext } from '../../context/LanguageContext';
 
@@ -8,6 +8,22 @@ export default function Header() {
   const [modalText, setModalText] = useState('');
   const [isHeartActive, setIsHeartActive] = useState(false);
   const { language, setLanguage } = useContext(LanguageContext);
+  const segments = useSegments();
+
+  const currentPage = segments[segments.length - 1];
+
+  const getInfoIcon = () => {
+    switch (currentPage) {
+      case 'main':
+        return require('../../assets/info_icon.png');
+      case 'dumy':
+        return require('../../assets/info_icon_blue.png');
+      case 'books':
+        return require('../../assets/info_icon_yellow.png');
+      default:
+        return require('../../assets/info_icon.png');
+    }
+  };
 
   const handleUkrainianPress = () => {
     setLanguage('ukrainian');
@@ -27,19 +43,40 @@ export default function Header() {
   };
 
   const handleInfoPress = () => {
-    showModal(infoText[language])};
-
-  const infoText = {
-    ukrainian: `Надіюсь вам подобаються ДУМИ! У нас також є телеграм та ютуб канали "Думи", а в інстаграм "Кирило Мефодіївське Товариство", де ми проводимо квартирники. 
-      Будемо вдячні за підписку, поширення, відгук в плеймаркеті, побажання, погрози чи закрутки (особливо цінимо малинове варення). 
-      Шукаємо в команду більше людей, маркетологів, копірайтерів, девелоперів, смачних булочок та менеджерів, пишіть і ставайте частиною проекту.`,
-    english: `I hope you enjoy DUMY! We also have Telegram and YouTube channels "DUMY", and on Instagram "Kyrylo Methodius Society", where we host apartment concerts. 
-      We would appreciate your subscription, sharing, feedback on the Play Market, suggestions, threats, or preserves (especially raspberry jam). 
-      We are looking for more people to join the team: marketers, copywriters, developers, tasty buns, and managers. Write to us and become part of the project.`,
-    french: `J'espère que vous appréciez DUMY ! Nous avons également des chaînes Telegram et YouTube "DUMY", et sur Instagram "Société Kyrylo Méthodius", où nous organisons des concerts d'appartement. 
-      Nous apprécierions votre abonnement, partage, retour sur le Play Market, suggestions, menaces ou conserves (surtout la confiture de framboises). 
-      Nous recherchons plus de personnes pour rejoindre l'équipe : marketeurs, rédacteurs, développeurs, délicieux petits pains et managers. Écrivez-nous et devenez partie du projet.`,
+    const infoText = getInfoText();
+    showModal(infoText[language]); 
   };
+
+    const getInfoText = () => {
+      switch (currentPage) {
+        case 'dumy':
+          return {
+            ukrainian: 'Всі мають доступ до виставлення нових постів, проте якщо ви бажаєте видалити або редагувати пост, напишіть будь ласка в телеграм @sofiya_shevchenko21',
+            english: 'English text',
+            french: 'French',
+          };
+        case 'books':
+          return {
+            ukrainian:'В Коломиї є неймовірна кав\'ярня "Букініст", завдяки якій, будучи школярем я прочитав сотні книг, в них була проста і геніальна ідея. Я давав їм 100 грн на "депозит", брав книгу, а коли повертав її, то забирав свої 100 грн.\n\n' +
+            'Ця ж сама ідея тут. Проте ця ідея класна для підлітків, для яких 200грн щотижня - це не під\'ємна сума. Але якщо для вас важливо мати СВОЮ книгу, добавити її в СВОЮ бібліотеку, тут можна стати тим, хто поділиться з іншими.\n\n' +
+            'Я ще хз як до кінця цей додаток має виглядати, це лиш бета версія, але кінцева ціль це щоб люди більше читали, особливо молодь.',
+            english: `We give and take FREE books, exchange them and promote bookcrossing. There is also possibilty to request "deposit" which is when u r giving book to read for free and when the book is read the deposit will be given back`,
+            french: 'Nous donnons et prenons des livres GRATUITS, les échangeons et promouvons le bookcrossing. Il est également possible de demander un "dépôt" : vous prêtez un livre gratuitement, et une fois lu, le dépôt vous est restitué.',
+          };
+        default:
+          return {
+            ukrainian: `Надіюсь вам подобаються ДУМИ! У нас також є телеграм та ютуб канали "Думи", а в інстаграм "Кирило Мефодіївське Товариство", де ми проводимо квартирники. \n\n` +
+              `Будемо вдячні за підписку, поширення, відгук в плеймаркеті, побажання, погрози чи закрутки (особливо цінимо малинове варення). \n\n` +
+              `Шукаємо в команду більше людей, маркетологів, копірайтерів, девелоперів, смачних булочок та менеджерів, пишіть і ставайте частиною проекту.`,
+            english: `I hope you enjoy DUMY! We also have Telegram and YouTube channels "DUMY", and on Instagram "Kyrylo Methodius Society", where we host apartment concerts. \n\n` +
+              `We would appreciate your subscription, sharing, feedback on the Play Market, suggestions, threats, or preserves (especially raspberry jam). \n\n` +
+              `We are looking for more people to join the team: marketers, copywriters, developers, tasty buns, and managers. Write to us and become part of the project.`,
+            french: `J'espère que vous appréciez DUMY ! Nous avons également des chaînes Telegram et YouTube "DUMY", et sur Instagram "Société Kyrylo Méthodius", où nous organisons des concerts d'appartement. \n\n` +
+              `Nous apprécierions votre abonnement, partage, retour sur le Play Market, suggestions, menaces ou conserves (surtout la confiture de framboises). \n\n` +
+              `Nous recherchons plus de personnes pour rejoindre l'équipe : marketeurs, rédacteurs, développeurs, délicieux petits pains et managers. Écrivez-nous et devenez partie du projet.`,
+          };
+      }
+    };
 
   const heartMessages = {
     ukrainian: [
@@ -87,28 +124,37 @@ const handleHeartPress = () => {
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity onPress={handleInfoPress}>
-        <Image source={require('../../assets/info_icon.png')} style={styles.icon} />
+      <TouchableOpacity hitSlop={10} onPress={handleInfoPress}>
+        <Image source={getInfoIcon()} style={styles.icon} />
       </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleEnglishPress}>
+        <TouchableOpacity hitSlop={10} onPress={handleEnglishPress}>
           <Image
             source={require('../../assets/english_flag.png')}
-            style={styles.lg_icon}
+            style={[
+              styles.lg_icon,
+              language === 'english' && styles.activeLanguage
+            ]}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleUkrainianPress}>
+        <TouchableOpacity hitSlop={10} onPress={handleUkrainianPress}>
           <Image
             source={require('../../assets/ukrainian_flag.png')}
-            style={styles.lg_icon}
+            style={[
+              styles.lg_icon,
+              language === 'ukrainian' && styles.activeLanguage
+            ]}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleFrenchPress}>
+        <TouchableOpacity hitSlop={10} onPress={handleFrenchPress}>
           <Image
-            source={require('../../assets/french_flag.webp')}
-            style={styles.lg_icon}
+            source={require('../../assets/french_flag.png')}
+            style={[
+              styles.lg_icon,
+              language === 'french' && styles.activeLanguage
+            ]}
           />
         </TouchableOpacity>
 
@@ -119,7 +165,7 @@ const handleHeartPress = () => {
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity onPress={handleHeartPress}>
+        <TouchableOpacity hitSlop={5} onPress={handleHeartPress}>
           <Image
             source={isHeartActive ? require('../../assets/heart_icon_active.png') : require('../../assets/heart_icon.png')}
             style={styles.icon}
@@ -150,10 +196,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#b7b6af',
   },
   lg_icon: {
-    width: 24,
+    width: 24, 
     height: 24,
+    opacity: 0.5,
     resizeMode: 'contain',
     borderRadius: 12,
+  },
+  activeLanguage: {
+    opacity: 1,
+    borderWidth: 2.5,
+    borderColor: '#000',
   },
   icon: {
     width: 24,
@@ -195,4 +247,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
